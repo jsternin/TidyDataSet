@@ -57,10 +57,11 @@ set column names for the data set "activity" "subject" subset of mean and std fe
 strings - for activity, numbers for subject, strings for features, and number
 for mean (average) of measurments with mean/std
 name of data frame is - tidyset.
-for each: activity; subject; feature - calculate mean of slice of dataset
+-for each: activity; subject; feature - calculate mean of slice of dataset
 if this slice is not na - add row with :
 activity_label, subject,feature name and average as row to data frame - tidy set
 - save table in working directory under name - tidyset.txt
+- create code book describing variables in tidy set
 
 
 

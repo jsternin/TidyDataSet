@@ -72,7 +72,7 @@ colnames(dataset) = c("activity","subject",features_mean_std)
 #
 #  4.2 save it as a file
 #
-write.table(dataset,file = paste0(wd,"\\cleandata4.txt"),row.names = FALSE)
+write.table(dataset,file = paste0(wd,"\\cleandata4.txt"),row.names = FALSE,quote = FALSE)
 #
 #  5. create new tidy data set with averages for each feature for each activity & subject
 #  must do library(dplyr)
@@ -96,8 +96,21 @@ for(iact in 1:nactivity)
         }
 
 
-tidyset$subject <- as.numeric(tidyset$subject)   
-tidyset$var_average <- as.numeric(tidyset$var_average)   
-write.table(tidyset,file = paste0(wd,"\\tidyset.txt"),row.names = FALSE,sep = '\t')
+#tidyset$subject <- as.numeric(tidyset$subject)   
+#tidyset$var_average <- as.numeric(tidyset$var_average)   
+write.table(tidyset,file = paste0(wd,"\\tidyset.txt"),row.names = FALSE,sep = ' ',quote = FALSE)
+#
+# create code book
+#
+codebook = c("Tidy set contains averages (mean or std measurment ) ",
+             " for each activity (6) , each subject(30) for each mean.std measure: - 48",
+             " total 6x30x48 -  8640 rows (long format - each row - 1 measurment",
+             "======================================================================",
+             "1.activity lables(6)",
+             "2. subjects(30)",
+             "48 variables : features - for each we get average listed below:");
+write.table(codebook,paste0(wd,"\\tidyset_codebook.txt"),col.names = FALSE,row.names = FALSE,quote = FALSE)
+write.table(features_mean_std,paste0(wd,"\\tidyset_codebook.txt"),
+            append= TRUE,col.names = FALSE,row.names = TRUE,quote = FALSE)
 
 

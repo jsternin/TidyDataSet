@@ -1,0 +1,55 @@
+Tidy set contains averages (mean or stdmeasurment ) 
+ for each activity (6) , each subject(30) for each mean.std measure: - 48
+ total 6x30x48 -  8640 rows
+======================================================================
+1.activity lables(6)
+2. subjects(30)
+48 variables : features - for each we get average listed below:
+1 tBodyAcc-mean()-X
+2 tBodyAcc-mean()-Y
+3 tBodyAcc-mean()-Z
+4 tBodyAcc-std()-X
+5 tBodyAcc-std()-Y
+6 tBodyAcc-std()-Z
+7 tGravityAcc-mean()-X
+8 tGravityAcc-mean()-Y
+9 tGravityAcc-mean()-Z
+10 tGravityAcc-std()-X
+11 tGravityAcc-std()-Y
+12 tGravityAcc-std()-Z
+13 tBodyAccJerk-mean()-X
+14 tBodyAccJerk-mean()-Y
+15 tBodyAccJerk-mean()-Z
+16 tBodyAccJerk-std()-X
+17 tBodyAccJerk-std()-Y
+18 tBodyAccJerk-std()-Z
+19 tBodyGyro-mean()-X
+20 tBodyGyro-mean()-Y
+21 tBodyGyro-mean()-Z
+22 tBodyGyro-std()-X
+23 tBodyGyro-std()-Y
+24 tBodyGyro-std()-Z
+25 tBodyGyroJerk-mean()-X
+26 tBodyGyroJerk-mean()-Y
+27 tBodyGyroJerk-mean()-Z
+28 tBodyGyroJerk-std()-X
+29 tBodyGyroJerk-std()-Y
+30 tBodyGyroJerk-std()-Z
+31 fBodyAcc-mean()-X
+32 fBodyAcc-mean()-Y
+33 fBodyAcc-mean()-Z
+34 fBodyAcc-std()-X
+35 fBodyAcc-std()-Y
+36 fBodyAcc-std()-Z
+37 fBodyAccJerk-mean()-X
+38 fBodyAccJerk-mean()-Y
+39 fBodyAccJerk-mean()-Z
+40 fBodyAccJerk-std()-X
+41 fBodyAccJerk-std()-Y
+42 fBodyAccJerk-std()-Z
+43 fBodyGyro-mean()-X
+44 fBodyGyro-mean()-Y
+45 fBodyGyro-mean()-Z
+46 fBodyGyro-std()-X
+47 fBodyGyro-std()-Y
+48 fBodyGyro-std()-Z
