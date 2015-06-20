@@ -38,6 +38,7 @@ I did not include meanFreq - because it is not original mesurments -
 this is some kind of spectral processing. - total it is 48 features.
 mean_std_index - array of indices of mean() and std() in features;
 features_mean_std - array of strings that contain mean() and std()
+convert features_mean_std to lowercase and remove () 
 ##########################################
 # 3-4 replace activity codes in data set with activity names
 ############################################################
@@ -53,6 +54,7 @@ set column names for the data set "activity" "subject" subset of mean and std fe
 ################################################
 # 5. create tidy data set from data set in item 4
 #################################################
+5.1 build tidy set and save it to disk
 - create blank data frame -
 strings - for activity, numbers for subject, strings for features, and number
 for mean (average) of measurments with mean/std
@@ -61,6 +63,7 @@ name of data frame is - tidyset.
 if this slice is not na - add row with :
 activity_label, subject,feature name and average as row to data frame - tidy set
 - save table in working directory under name - tidyset.txt
+5.2 Create codebook with the description of each variable
 - create code book describing variables in tidy set
 
 

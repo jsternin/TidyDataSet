@@ -8,6 +8,7 @@ localFile <- paste0(wd,"\\getdata-projectfiles-UCI HAR Dataset.zip")
 # 1. merge test and training data sets 
 # 1.1download file
 #
+print("1.1 downloading file.....")
 fileUrl1 <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip?accessType = DOWNLOAD"
 download.file(fileUrl1,destfile = localFile,mode = "wb") 
 #
@@ -52,9 +53,12 @@ ndata = nrow(measure)
 print("2. extracting mean & std() features......")
 pfeatures = paste0(dirdata,"\\features.txt")
 features = read.table(pfeatures,stringsAsFactors = FALSE)
-mean_std_index = sort(c(grep("\\-mean\\(\\)\\-",features[,2]),grep("\\-std\\(\\)\\-",features[,2])))
+# this grep will give 46 features (only with -mean()- and -std()- )
+# mean_std_index = sort(c(grep("\\-mean\\(\\)\\-",features[,2]),grep("\\-std\\(\\)\\-",features[,2])))
+# this pair of grep(s) give 79 features including meanFreq etc... 
+mean_std_index = sort(c(grep("mean",features[,2]),grep("std",features[,2])))
 nvars = length(mean_std_index)
-features_mean_std = features$V2[mean_std_index]
+features_mean_std = gsub("-","_",sub("\\(\\)","",tolower(features$V2[mean_std_index])))
 #
 # 3, use activity names 
 # 3.1 get activities
@@ -82,33 +86,51 @@ dataset = arrange(dataset,activity,subject)
 #
 # 5.1 create dataframe
 #
-print("5. creating tidy dataset..............")
+print("5.1 creating tidy dataset...(tidyset.txt)...........")
 tidyset = data.frame(character(0),numeric(0),character(0),numeric(0),stringsAsFactors = FALSE)
-colnames(tidyset) = c("activity","subject","variable","var_average")
-for(iact in 1:nactivity) 
-    for(isubj in 1:nsubject) 
-        for(ifeat in 1:nvars) {
-            avg = mean(dataset[((dataset$activity == activity_labels$V2[iact]) &
-                                (dataset$subject == isubj)),2+ifeat],na.rm = TRUE)
-            if (!is.na(avg))
-                tidyset[nrow(tidyset)+1,] = c(activity_labels[iact,2],as.numeric(isubj),
-                                              features_mean_std[ifeat],as.numeric(avg))
-        }
+colnames(tidyset) = c("activity","subject","feature","avg_measure")
+#initial verision with 3 loops - slow
+#for(iact in 1:nactivity) 
+#    for(isubj in 1:nsubject) 
+#        for(ifeat in 1:nvars) {
+#            avg = mean(dataset[((dataset$activity == activity_labels$V2[iact]) &
+#                                (dataset$subject == isubj)),2+ifeat],na.rm = TRUE)
+#            if (!is.na(avg))
+#                tidyset[nrow(tidyset)+1,] = c(activity_labels[iact,2],as.numeric(isubj),
+#                                              features_mean_std[ifeat],as.numeric(avg))
+#        }
+# faster version - create narrow / long data set
+# has 4 columns - activity, subject, feature (text), mean(measure)
+for(ifeat in 1:nvars) {
+    nfcol = ifeat + 2 #feature column
+    fname = colnames(dataset[nfcol])
+    pattern = "mean"
+    if (0 == length(grep("mean",fname)))
+        pattern = "std"
+    
+    mk <- dataset %>% 
+          select(activity,subject,ifeat+2) %>% 
+          mutate(feature = fname) %>% 
+          select(activity,subject,feature,measure = contains(pattern)) %>% 
+          group_by(activity,subject,feature) %>% 
+          summarize(mean(measure))
+    for(irow in 1:nrow(mk))
+        tidyset[nrow(tidyset)+1,] = mk[irow,]
+        
+}
+tidyset = arrange(tidyset,activity,subject,feature)
 
-
-#tidyset$subject <- as.numeric(tidyset$subject)   
-#tidyset$var_average <- as.numeric(tidyset$var_average)   
 write.table(tidyset,file = paste0(wd,"\\tidyset.txt"),row.names = FALSE,sep = ' ',quote = FALSE)
+print("5.1 creating tidy dataset codebook (codebook.txt).........")
 #
 # create code book
 #
 codebook = c("Tidy set contains averages (mean or std measurment ) ",
-             " for each activity (6) , each subject(30) for each mean.std measure: - 48",
-             " total 6x30x48 -  8640 rows (long format - each row - 1 measurment",
-             "======================================================================",
+             " for each activity (6) , each subject(30) for each mean.std measure:79 : total 81",
+             "=================================================================================",
              "1.activity lables(6)",
              "2. subjects(30)",
-             "48 variables : features - for each we get average listed below:");
+             "79 variables : features - for each we get average listed below:");
 write.table(codebook,paste0(wd,"\\tidyset_codebook.txt"),col.names = FALSE,row.names = FALSE,quote = FALSE)
 write.table(features_mean_std,paste0(wd,"\\tidyset_codebook.txt"),
             append= TRUE,col.names = FALSE,row.names = TRUE,quote = FALSE)
