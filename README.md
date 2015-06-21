@@ -26,8 +26,8 @@ measurments  -  nmeasure[2]
 1.5 merge test and train data:
 use rbind and merge read.table from files in 1.4
 for each of 3 groups: result are 3 data sets:
-subject, activity, measure - all of them have 10299 rows (train + test)
--
+subject,activity,measures – all of them have 10299 rows (train + test)
+
 2.Extract features (measurement names ) with “mean” and “std”
 ------------------------------------------------------------------------------------
 get path to feature dictionary - feature.txt
