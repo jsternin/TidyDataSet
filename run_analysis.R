@@ -1,5 +1,8 @@
 #
-# Course : Data cleaning
+# Course : Getting and Cleaning Data
+# Assigment : Tydy data
+#
+library(dplyr)
 #
 # get path (Windows)
 #
@@ -26,7 +29,7 @@ ptype = c(paste0(dirdata,"\\",type[1]),paste0(dirdata,"\\",type[2]))
 #
 # 1.4 get file names (measurement, dictionaries: activity, features )
 #
-print("1.4 getting file names......")
+print("1.4 getting file names.(subject,X_,Y_,.....")
 nsubject = c(paste0(ptype[1],"\\subject_",type[1],".txt"),paste0(ptype[2],"\\subject_",type[2],".txt"))
 nmeasure = c(paste0(ptype[1],"\\X_",type[1],".txt"),paste0(ptype[2],"\\X_",type[2],".txt"))
 nactivity = c(paste0(ptype[1],"\\y_",type[1],".txt"),paste0(ptype[2],"\\y_",type[2],".txt"))
@@ -76,7 +79,7 @@ colnames(dataset) = c("activity","subject",features_mean_std)
 #
 #  4.2 save it as a file
 #
-write.table(dataset,file = paste0(wd,"\\cleandata4.txt"),row.names = FALSE,quote = FALSE)
+# write.table(dataset,file = paste0(wd,"\\cleandata4.txt"),row.names = FALSE,quote = FALSE)
 #
 #  5. create new tidy data set with averages for each feature for each activity & subject
 #  must do library(dplyr)
@@ -89,16 +92,7 @@ dataset = arrange(dataset,activity,subject)
 print("5.1 creating tidy dataset...(tidyset.txt)...........")
 tidyset = data.frame(character(0),numeric(0),character(0),numeric(0),stringsAsFactors = FALSE)
 colnames(tidyset) = c("activity","subject","feature","avg_measure")
-#initial verision with 3 loops - slow
-#for(iact in 1:nactivity) 
-#    for(isubj in 1:nsubject) 
-#        for(ifeat in 1:nvars) {
-#            avg = mean(dataset[((dataset$activity == activity_labels$V2[iact]) &
-#                                (dataset$subject == isubj)),2+ifeat],na.rm = TRUE)
-#            if (!is.na(avg))
-#                tidyset[nrow(tidyset)+1,] = c(activity_labels[iact,2],as.numeric(isubj),
-#                                              features_mean_std[ifeat],as.numeric(avg))
-#        }
+
 # faster version - create narrow / long data set
 # has 4 columns - activity, subject, feature (text), mean(measure)
 for(ifeat in 1:nvars) {
@@ -125,12 +119,17 @@ print("5.1 creating tidy dataset codebook (codebook.txt).........")
 #
 # create code book
 #
+
 codebook = c("Tidy set contains averages (mean or std measurment ) ",
-             " for each activity (6) , each subject(30) for each mean.std measure:79 : total 81",
-             "=================================================================================",
-             "1.activity lables(6)",
-             "2. subjects(30)",
-             "79 variables : features - for each we get average listed below:");
+             " for each activity (6) , each subject(30) for each mean.std measure:79 ",
+             " this is narrow and long tidy data set with 4 columns and 6x30x79 = 14220 rows",
+             "==============================================================================",
+             "1.activity lables(6):LAYING,SITTING,STANDING,WALKING,WALKING DOWNSTAIR,WALKING UPSTAIRS ",
+             "2.subjects(30) : individuals for train & test",
+             "3.features : 79 features - for each feature name listed below ",
+             "             we calculate average of all measurments:",
+             "             names of features automatically generated from source file features.txt",
+             "             names of features modified in accordance with the assignement requirements : lower case etc..");
 write.table(codebook,paste0(wd,"\\tidyset_codebook.txt"),col.names = FALSE,row.names = FALSE,quote = FALSE)
 write.table(features_mean_std,paste0(wd,"\\tidyset_codebook.txt"),
             append= TRUE,col.names = FALSE,row.names = TRUE,quote = FALSE)
