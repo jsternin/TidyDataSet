@@ -29,7 +29,7 @@ for each of 3 groups: result are 3 data sets:
 subject,activity,measures – all of them have 10299 rows (train + test)
 
 2.Extract features (measurement names ) with “mean” and “std”
-------------------------------------------------------------------------------------
+---------------------------------------------------------------
 get path to feature dictionary - feature.txt
 read.table - features.
 Run grep - get indices of features data frame that match - 
@@ -55,7 +55,7 @@ set column names for the data set "activity" "subject" subset of mean and std fe
 4.2 save this as dataset in a file using write table
 
 5.Create tidy data set (long/narrow) and code book from wide data set
------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------
 
 5.1 build tidy set and save it to disk
 - create blank data frame -
