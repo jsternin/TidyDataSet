@@ -43,7 +43,7 @@ convert features_mean_std to lowercase and remove ()
 
 
 3-4 replace activity codes with activity names; save wide file
----------------------------------------------------------------------
+------------------------------------------------------------------
 
 3. Get activity_labels file ; read it into activity_labels data set
 
@@ -69,6 +69,9 @@ save table in working directory under name - tidyset.txt
 
 5.2 Create codebook with the description of each variable
 - create code book describing variables in tidy set
+
+To open tidyset.txt use space as field separator 
+(in OpenOffice use : insert> sheet>from file mark space as separator)
 
 
 
