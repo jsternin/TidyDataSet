@@ -1,9 +1,13 @@
 Tidy set contains averages (mean or std measurment ) 
- for each activity (6) , each subject(30) for each mean.std measure:79 : total 81
-=================================================================================
-1.activity lables(6)
-2. subjects(30)
-79 variables : features - for each we get average listed below:
+ for each activity (6) , each subject(30) for each mean.std measure:79 
+ this is narrow and long tidy data set with 4 columns and 6x30x79 = 14220 rows
+==============================================================================
+1.activity lables(6):LAYING,SITTING,STANDING,WALKING,WALKING DOWNSTAIR,WALKING UPSTAIRS 
+2.subjects(30) : individuals for train & test
+3.features : 79 features - for each feature name listed below 
+             we calculate average of all measurments:
+             names of features automatically generated from source file features.txt
+             names of features modified in accordance with the assignement requirements : lower case etc..
 1 tbodyacc_mean_x
 2 tbodyacc_mean_y
 3 tbodyacc_mean_z
